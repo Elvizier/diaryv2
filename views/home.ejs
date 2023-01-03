@@ -1,17 +1,25 @@
-<%-include("partials/header.ejs")%>
+<%- include("partials/header.ejs")%>
 
 
 
-<h2>My Daily Journal</h2>
-<p> <%=startingContent%> </p>
+    <h2>My Daily Journal</h2>
+    <p>
+        <%=startingContent%>
+    </p>
 
 
-<%posts.forEach(function(post){%>
-<h1><%= post.title%></h1>
-<p> <%=post.content.substring(0, 99) + "...."%> <a href="/posts/<%= post._id%>">Read more</a></p>
-<%})%>
+    <%posts.forEach(function(post){%>
+        <form action="/delete" method="POST">
+            <h3>
+                <%= post.title%>
+            </h3>
+            <p>
+                <%=post.content.substring(0, 99) + "...." %> <a href="/posts/<%= post._id%>">Read more</a>
+            </p>
+            <button class="btn btn-danger btn-sm" type="submit" name="delete" value="<%=post._id %>">X</button>
+        </form>
+        <%})%>
 
 
 
-
-<%-include("partials/footer.ejs")%>
+            <%- include("partials/footer.ejs") %>

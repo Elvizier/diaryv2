@@ -18,7 +18,7 @@ const posts = [];
 
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 const postSchema = {
@@ -29,32 +29,32 @@ const postSchema = {
 const Post = mongoose.model("Post", postSchema);
 
 
-app.get("/", function(req, res){
-  Post.find({}, function(err, posts){
-    res.render("home", {startingContent:homeStartingContent, posts:posts});
+app.get("/", function (req, res) {
+  Post.find({}, function (err, posts) {
+    res.render("home", { startingContent: homeStartingContent, posts: posts });
   });
 
 });
 
-app.get("/about", function(req, res){
-  res.render("about",{aboutText:aboutContent});
+app.get("/about", function (req, res) {
+  res.render("about", { aboutText: aboutContent });
 });
 
 // app.get("/contact", function(req, res){
 //   res.render("contact",{contactText:contactContent});
 // });
 
-app.get("/compose", function(req, res){
+app.get("/compose", function (req, res) {
   res.render("compose")
 });
 
-app.post("/compose", function(req, res){
+app.post("/compose", function (req, res) {
   const post = new Post({
     title: req.body.postTitle,
     content: req.body.postBody
   });
-  post.save(function(err){
-    if(!err){
+  post.save(function (err) {
+    if (!err) {
       res.redirect("/");
     } else {
       res.redirect("/compose")
@@ -65,24 +65,36 @@ app.post("/compose", function(req, res){
 });
 
 
-app.get("/posts/:postId", function(req, res){
+app.get("/posts/:postId", function (req, res) {
   const requestedPostId = req.params.postId
-  Post.findOne({_id: requestedPostId}, function(err, post){
+  Post.findOne({ _id: requestedPostId }, function (err, post) {
     res.render("post", {
       title: post.title,
       content: post.content
     });
   });
+});
 
 
+app.post("/delete", function (req, res) {
+  const dPostId = req.body.delete
+  Post.findByIdAndRemove(dPostId, function (err) {
+    if (!err) {
+      console.log("successfully deleted Post")
+      res.redirect("/")
+    }
+  })
 })
+
+
+
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 8000;
+  port = 2703;
 }
 
 
 
-app.listen(port, function() {
+app.listen(port, function () {
   console.log("Server started successfully");
 });
