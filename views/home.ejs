@@ -16,7 +16,8 @@
             <p>
                 <%=post.content.substring(0, 99) + "...." %> <a href="/posts/<%= post._id%>">Read more</a>
             </p>
-            <button class="btn btn-danger btn-sm" type="submit" name="delete" value="<%=post._id %>">X</button>
+            <button class="btn btn-danger btn-sm" type="submit" name="delete" value="<%=post._id %>">Delete</button>
+            <button class="btn btn-success btn-sm" type="button" name="Edit" value="<%=post._id %>">Edit</button>
         </form>
         <%})%>
 
